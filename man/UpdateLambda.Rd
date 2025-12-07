@@ -1,45 +1,37 @@
 \name{UpdateLambda}
 \alias{UpdateLambda}
-\title{Update the Lambda parameters of clusters.}
+\title{Update spread parameters (M-step)}
 \usage{
-  UpdateLambda(r, R, z, G, dists.to.Rg, dists.table,
-    top.bound = 1000)
+UpdateLambda(r, R, z, G, dists_to_Rg, dists_table, top_bound = 1000)
 }
 \arguments{
-  \item{r}{Matrix of partial rankings.}
+\item{r}{Matrix of rankings (N x n_items).}
 
-  \item{R}{Current modal sequences.}
+\item{R}{List of current modal sequences.}
 
-  \item{z}{Current probabilities of memberships in each
-  cluster.}
+\item{z}{Matrix of membership probabilities (N x G).}
 
-  \item{G}{Number of modal sequences.}
+\item{G}{Number of clusters.}
 
-  \item{dists.to.Rg}{Matrix of the distances between the
-  data and the current modal sequences.}
+\item{dists_to_Rg}{Matrix of distances from data to modal sequences (N x G).}
 
-  \item{dists.table}{Table of the distance distribution in
-  N! space, under Kendall's metric.}
+\item{dists_table}{Table of distance distribution in N! space.}
 
-  \item{top.bound}{The maximum value for the lambda
-  parameter.}
+\item{top_bound}{Maximum allowed value for lambda (default 1000).}
 }
 \value{
-  Vector of new lambda parameters for the clusters.
+Vector of updated lambda parameters (length G).
 }
 \description{
-  Updates the Lambda parameters to maximize the likelihood
-  of the data under Mallows' model.
+Updates the lambda (spread) parameters for each cluster to maximize
+the likelihood given current membership probabilities.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
 }
 \keyword{lambda}
 \keyword{maximization}
-

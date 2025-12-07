@@ -1,34 +1,55 @@
-#' All information used to calculate Kendall's distance.
-#' 
-#' Performs each column-wise comparison on a matrix of sequences.  A 0 value
-#' denotes that there is an increase between the two columns, 1 a decrease, and
-#' NA indicates that the column values are identical in the row.
-#' 
-#' 
-#' @param r Matrix of sequences.
-#' @param inds Possibly efficiency increase when doing repeated calculations,
-#' currently not used.
-#' @return Matrix of 0s, 1s, and NAs representing pairwise comparisons of
-#' vector values.
+#' Compute pairwise comparison information for Kendall's distance
+#'
+#' Performs each column-wise comparison on a matrix of sequences. A 0 value
+#' denotes an increase between two columns, 1 denotes a decrease, and NA
+#' indicates tied values.
+#'
+#' @param r Matrix of sequences, where each row is a ranking.
+#' @param inds Optional matrix of column index pairs for comparisons. If NULL,
+#'   all pairs are computed using \code{combn(ncol(r), 2)}.
+#' @return Matrix of 0s, 1s, and NAs representing pairwise comparisons. Each
+#'   column corresponds to a pair of positions in the original ranking.
 #' @author Erik Gregory
-#' @references http://en.wikipedia.org/wiki/Kendall_tau_distance
+#' @references \url{https://en.wikipedia.org/wiki/Kendall_tau_distance}
 #' @keywords Kendall Distance
+#' @export
+#' @examples
+#' # Full ranking
+#' r <- matrix(c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1), nrow = 2, byrow = TRUE)
+#' KendallInfo(r)
+#'
+#' # Ranking with ties
+#' r_ties <- matrix(c(1, 1, 2, 3, 3), nrow = 1)
+#' KendallInfo(r_ties)
+KendallInfo <- function(r, inds = NULL) {
+  # Ensure r is a matrix
 
-KendallInfo <-
-function(r, inds = NULL) {
-  if (is.null(inds)) {
-    inds <- combn(ncol(r), 2)
-  }
-  if (!is.matrix(r)) {
+if (!is.matrix(r)) {
     r <- as.matrix(r)
     attr(r, "dimnames") <- NULL
   }
-  infos <- r[, inds[1, ]] - r[, inds[2, ]]
-  decr <- which(infos > 0)
-  incr <- which(infos < 0)
-  indet <- which(infos == 0)
-  infos[decr] <- TRUE
-  infos[incr] <- FALSE
-  infos[indet] <- NA
-  return(infos)
+
+  # Input validation
+  if (nrow(r) == 0L || ncol(r) == 0L) {
+    stop("Input matrix 'r' must have at least one row and one column.")
+  }
+
+  # Generate column pairs if not provided
+  if (is.null(inds)) {
+    if (ncol(r) < 2L) {
+      return(matrix(NA_real_, nrow = nrow(r), ncol = 0L))
+    }
+    inds <- combn(ncol(r), 2L)
+  }
+
+  # Compute pairwise differences
+  diffs <- r[, inds[1L, ], drop = FALSE] - r[, inds[2L, ], drop = FALSE]
+
+  # Convert to Kendall information: 1 = decrease, 0 = increase, NA = tie
+  # Using vectorized operations for efficiency
+  infos <- matrix(NA_real_, nrow = nrow(diffs), ncol = ncol(diffs))
+  infos[diffs > 0] <- 1
+  infos[diffs < 0] <- 0
+
+  infos
 }

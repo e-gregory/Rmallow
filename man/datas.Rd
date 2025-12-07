@@ -1,15 +1,17 @@
 \docType{data}
 \name{datas}
 \alias{datas}
-\title{Sample data set.}
-\format{The format is: num [1:1700, 1:15] 1 15 1 15 15 12 10 4 1 15 ...}
+\title{Sample synthetic data set}
+\format{
+A numeric matrix with 1700 rows (observations) and 15 columns (items).
+}
 \description{
-  Simple synthetic data set containing 3 modal sequences in
-  15! space, with some noise added.
+Synthetic data set containing 3 modal sequences in 15! space, with
+some noise added. Useful for testing and demonstrating the package.
 }
 \examples{
 data(datas)
 head(datas)
+dim(datas)
 }
 \keyword{datasets}
-

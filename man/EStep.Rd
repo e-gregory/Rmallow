@@ -1,48 +1,41 @@
 \name{EStep}
 \alias{EStep}
-\title{The Expectation step of the EM algorithm.}
+\title{E-Step of the EM algorithm}
 \usage{
-  EStep(R, r, p, lambda, G, N, C, all.dists = NULL)
+EStep(R, r, p, lambda, G, N, C, all_dists = NULL)
 }
 \arguments{
-  \item{R}{Current cluster modal sequences.}
+\item{R}{List of current cluster modal sequences.}
 
-  \item{r}{The data of partial or full rankings.}
+\item{r}{Matrix of rankings (N x n_items).}
 
-  \item{p}{The proportion of the data currently assigned to
-  each cluster.}
+\item{p}{Vector of cluster proportions (length G).}
 
-  \item{lambda}{The lambda parameters from Mallow's model
-  for each cluster.}
+\item{lambda}{Vector of spread parameters (length G).}
 
-  \item{G}{Number of clusters, length(R).}
+\item{G}{Number of clusters.}
 
-  \item{N}{Number of rows in the data.}
+\item{N}{Number of observations.}
 
-  \item{C}{Vector of normalizing coefficients for the
-  clusters.}
+\item{C}{Vector of normalizing constants (length G).}
 
-  \item{all.dists}{For efficiency, provide all of the
-  Kendall distances between each sequence and each cluster
-  mode.}
+\item{all_dists}{Optional precomputed distance matrix (N x G). If NULL,
+computed from \code{r} and \code{R}.}
 }
 \value{
-  Matrix where output[i, j] represents the current
-  probability that subject "i" belongs to cluster "j".
+Matrix (N x G) where entry \code{[i, j]} is the probability that
+observation i belongs to cluster j.
 }
 \description{
-  Assigns each ranking the probability that it belongs to
-  each cluster, given current parameters.
+Computes the probability that each ranking belongs to each cluster,
+given the current model parameters.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
 }
 \keyword{expectation}
 \keyword{maximization}
-

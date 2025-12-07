@@ -1,40 +1,51 @@
 \name{Mallows}
 \alias{Mallows}
-\title{Fits a Multi-Modal Mallows' model to ranking data.}
+\title{Fit a Multi-Modal Mallows' Model to Ranking Data}
 \usage{
-  Mallows(datas, G, iter = 10, hyp = NULL,
-    plot.like = FALSE)
+Mallows(datas, G, iter = 100L, hyp = NULL, plot_like = FALSE,
+        verbose = TRUE, tol = 1e-06)
 }
 \arguments{
-  \item{datas}{Matrix of partial or fully-ranked data.}
+\item{datas}{Matrix of partial or fully-ranked data (N x n_items).}
 
-  \item{G}{Number of modes, 2 or greater.}
+\item{G}{Number of modes (clusters), must be >= 1.}
 
-  \item{iter}{Maximum number of iterations.}
+\item{iter}{Maximum number of EM iterations (default 100).}
 
-  \item{hyp}{Hypothesis sequence vector, to initialize one
-  of the cluster centers at.}
+\item{hyp}{Optional hypothesis sequence to initialize one cluster center.}
 
-  \item{plot.like}{Should the likelihood be printed at each
-  iteration?}
+\item{plot_like}{Logical; if TRUE, plot likelihood at each iteration.}
+
+\item{verbose}{Logical; if TRUE, print progress messages.}
+
+\item{tol}{Convergence tolerance. Algorithm stops when likelihood change
+is less than this value.}
 }
 \value{
-  See output of FormatOut
+List with components:
+\describe{
+  \item{R}{List of modal sequences for each cluster}
+  \item{p}{Vector of cluster proportions}
+  \item{lambda}{Vector of spread parameters}
+  \item{datas}{Data frame with cluster assignments and diagnostics}
+  \item{min.like}{Vector of log-likelihood at each iteration}
+}
 }
 \description{
-  Fits the Multi-Modal Mallows' model to partial or full
-  ranking data, using Kendall's metric and an EM algorithm.
-  This is essentially metric sequence clustering.
+Fits a mixture of Mallows' models to partial or full ranking data using
+an EM algorithm with Kendall's distance metric.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
-}
-\keyword{cluster}
-\keyword{Mallow}
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
 
+Adkins, L. and Fligner, M. (1998). A Non-iterative procedure for maximum
+likelihood estimation of the parameters of Mallows' Model Based on
+Partial Rankings. Communications in Statistics - Theory and Methods,
+27:9, 2199-2220.
+}
+\keyword{Mallow}
+\keyword{cluster}

@@ -1,24 +1,61 @@
-#' Initialize sequence modes for the clustering process.
+#' Initialize cluster modal sequences
 #'
-#' @param G number of cluster centers, including the hypothesis if provided
-#' @param hyp a single sequence of length \code{abils} to initialize one of the cluster centers
-#' @param abils number of items being ranked
-#' @return A list of G cluster centers, each of length abils
+#' Generates initial modal sequences for the Mallows mixture model clustering.
+#' If a hypothesis sequence is provided, it becomes the first cluster center.
+#' Remaining cluster centers are initialized randomly.
+#'
+#' @param G Number of cluster centers (modes).
+#' @param hyp Optional hypothesis sequence to use as the first cluster center.
+#'   Must be a permutation of 1:abils.
+#' @param abils Number of items being ranked.
+#' @return List of G integer vectors, each a permutation of 1:abils.
 #' @author Erik Gregory
+#' @keywords initialization cluster
+#' @export
 #' @examples
-#' Rgen(3, 1:5, 5)
+#' # Three random cluster centers for 5-item rankings
+#' set.seed(42)
+#' Rgen(3, abils = 5)
+#'
+#' # With a specific hypothesis sequence
+#' Rgen(3, hyp = c(5, 4, 3, 2, 1), abils = 5)
 Rgen <- function(G, hyp = NULL, abils) {
-  R <- list()
+  # Input validation
+  if (!is.numeric(G) || G < 1L) {
+    stop("'G' must be a positive integer.")
+  }
+  G <- as.integer(G)
+
+  if (!is.numeric(abils) || abils < 1L) {
+    stop("'abils' must be a positive integer.")
+  }
+  abils <- as.integer(abils)
+
   if (!is.null(hyp)) {
-    R[[1]] <- hyp
-  }
-  else {
-    R[[1]] <- sample(abils)
-  }
-  if (G > 1) {
-    for (i in 2:G) {
-      R[[i]] <- sample(abils)
+    if (length(hyp) != abils) {
+      stop("'hyp' must have length equal to 'abils'.")
+    }
+    if (!setequal(hyp, seq_len(abils))) {
+      stop("'hyp' must be a permutation of 1:abils.")
     }
   }
-  return(R)
+
+  # Initialize result list
+  R <- vector("list", G)
+
+  # Set first cluster center
+  if (!is.null(hyp)) {
+    R[[1L]] <- as.integer(hyp)
+  } else {
+    R[[1L]] <- sample.int(abils)
+  }
+
+  # Generate random cluster centers for remaining clusters
+  if (G > 1L) {
+    for (i in 2L:G) {
+      R[[i]] <- sample.int(abils)
+    }
+  }
+
+  R
 }

@@ -1,40 +1,50 @@
 \docType{package}
 \name{RMallow-package}
-\alias{RMallow}
 \alias{RMallow-package}
-\title{Fit Multi-modal Mallows' models to ranking data.}
+\alias{RMallow}
+\title{RMallow: Fit Multi-Modal Mallows' Models to Ranking Data}
 \description{
-  Fits the Mallows' model to ranking data.  Data can be
-  partially or fully-ranked.
+Fits the Mallows' model to ranking data using an EM algorithm.
+Data can be partially or fully-ranked, with or without ties.
 }
 \details{
-  \tabular{ll}{ Package: \tab RMallow\cr Type: \tab
-  Package\cr Version: \tab 1.0\cr Date: \tab 2012-02-18\cr
-  License: \tab GPL (>= 2) }
+The main functions are:
+\itemize{
+  \item \code{\link{Mallows}}: Fit a Mallows mixture model
+  \item \code{\link{BestFit}}: Fit multiple models and select the best
+}
+
+Distance computation functions:
+\itemize{
+  \item \code{\link{AllKendall}}: Compute Kendall distances between rankings
+  \item \code{\link{KendallInfo}}: Compute pairwise comparison information
+  \item \code{\link{DistanceDistribution}}: Distance distribution in N! space
+}
+
+Utility functions:
+\itemize{
+  \item \code{\link{SimplifySequences}}: Normalize tied rankings
+  \item \code{\link{ConstructSeqs}}: Reconstruct sequences from preferences
+}
 }
 \author{
-  Erik Gregory Maintainer: <egregory2007@yahoo.com>
+Erik Gregory \email{egregory2011@gmail.com}
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
+\doi{10.1016/S0167-9473(02)00165-2}
 
-  "Estimating a Population Distribution of Sequences of k
-  Items from Cross- Sectional Data". Laurel A. Smith
-  (Beckett) and Denis A. Evans. Journal of the Royal
-  Statistical Society.  Series C (Applied Statistics). Vol.
-  40, No. 1 (1991), pp.31-42.  Blackwell Publishing for the
-  Royal Statistical Society. Accessed 16/08/2010.
-  http://www.jstor.org/stable/2347903 .
+Beckett, L.A. and Evans, D.A. (1991). Estimating a Population Distribution
+of Sequences of k Items from Cross-Sectional Data. Journal of the Royal
+Statistical Society, Series C, 40(1), 31-42.
 
-  "A Non-iterative procedure for maximum likelihood
-  estimation of the parameters of Mallows' Model Based on
-  Partial Rankings".  Laura Adkins and Michael Flinger.
-  Communication in Statistics - Theory and Methods, 27:9,
-  2199-2220. 1998, Marchel Dekker, Inc.
-  http://dx.doi.org/10.1080/03610929808832223 .
+Adkins, L. and Fligner, M. (1998). A Non-iterative procedure for maximum
+likelihood estimation of the parameters of Mallows' Model Based on
+Partial Rankings. Communications in Statistics - Theory and Methods,
+27(9), 2199-2220. \doi{10.1080/03610929808832223}
 }
+\keyword{package}
 \keyword{ranking}
-
+\keyword{Mallows}
+\keyword{clustering}

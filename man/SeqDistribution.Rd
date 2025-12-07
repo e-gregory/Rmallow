@@ -1,26 +1,30 @@
 \name{SeqDistribution}
 \alias{SeqDistribution}
-\title{Calculates distances in N! space.}
+\title{Compute all Kendall distances in N! space by enumeration}
 \usage{
-  SeqDistribution(N)
+SeqDistribution(N)
 }
 \arguments{
-  \item{N}{Length of the ranking.  Preferrably less than
-  9.}
+\item{N}{Length of the ranking. Should be less than 9 for practical use.}
 }
 \value{
-  Vector of Kendall distances from 1:N to each sequence in
-  N! space.
+Integer vector of Kendall distances from 1:N to each permutation.
 }
 \description{
-  Calculates Kendall's distances of each sequence in N!
-  space.  This is VERY Inefficient for N >= 8.  See
-  DistanceDistribution for an astronomical improvement
-  (possibly on the order of 10^10).
+Computes Kendall's distance from 1:N to each permutation in N! space by
+enumerating all permutations. This is computationally expensive for N >= 8.
+For larger N, use \code{\link{DistanceDistribution}} instead.
+}
+\examples{
+# All distances in 4! space
+dists <- SeqDistribution(4)
+table(dists)
+}
+\seealso{
+\code{\link{DistanceDistribution}} for an efficient alternative
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \keyword{bubblesort}
 \keyword{distance}
-

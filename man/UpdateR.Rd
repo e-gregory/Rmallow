@@ -1,33 +1,29 @@
 \name{UpdateR}
 \alias{UpdateR}
-\title{Update modal sequences in each cluster.}
+\title{Update modal sequences (M-step)}
 \usage{
-  UpdateR(r, z, infos = NULL)
+UpdateR(r, z, infos = NULL)
 }
 \arguments{
-  \item{r}{Matrix of sequences being clustered.}
+\item{r}{Matrix of rankings (N x n_items).}
 
-  \item{z}{Probability of cluster membership for each
-  sequence and each cluster.}
+\item{z}{Matrix of membership probabilities (N x G).}
 
-  \item{infos}{The KendallInfo matrix for "r".}
+\item{infos}{Optional precomputed Kendall information matrix for \code{r}.}
 }
 \value{
-  New cluster centers for each cluster.
+List of G updated modal sequences.
 }
 \description{
-  Maximizes the likelihood of the data by updating the
-  cluster centers of the model.
+Updates the cluster centers (modal sequences) to maximize the likelihood
+given current membership probabilities.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
 }
 \keyword{center}
 \keyword{cluster}
-

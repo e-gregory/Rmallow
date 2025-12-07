@@ -1,23 +1,34 @@
 \name{SimplifySequences}
 \alias{SimplifySequences}
-\title{Change the form of ordered sequences.}
+\title{Simplify tied rankings to consecutive integers}
 \usage{
-  SimplifySequences(loss.time)
+SimplifySequences(rankings)
 }
 \arguments{
-  \item{loss.time}{Matrix of sequences to be simplified.}
+\item{rankings}{Matrix of rankings to simplify, where each row is a ranking.}
 }
 \value{
-  Simplified sequences, as described in Description.
+Matrix of simplified rankings with the same dimensions.
 }
 \description{
-  Simplifies sequences so that each tie group is only of
-  distance 1 to the next tie group.  For example, we would
-  simplify (1, 1, 2, 4, 4, 5) to (1, 1, 2, 3, 3, 4).
+Transforms rankings so that tie groups use consecutive integers.
+For example, (1, 1, 2, 4, 4, 5) becomes (1, 1, 2, 3, 3, 4).
+}
+\examples{
+# Single ranking with gaps
+rankings <- matrix(c(1, 1, 2, 4, 4, 5), nrow = 1)
+SimplifySequences(rankings)
+# Returns: 1 1 2 3 3 4
+
+# Multiple rankings
+rankings <- rbind(
+  c(1, 3, 3, 5),
+  c(2, 2, 4, 6)
+)
+SimplifySequences(rankings)
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \keyword{sequence}
 \keyword{simplify}
-
