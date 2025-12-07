@@ -27,7 +27,7 @@ NextTable <- function(last_table, n_last) {
 
   # Maximum distance in (N+1)! space is N*(N+1)/2
   # (adding element N+1 can add at most N inversions to any permutation)
-  new_len <- (n_last + 1L) * n_last %/% 2L + 1L
+  new_len <- ((n_last + 1L) * n_last) %/% 2L + 1L
 
   # Length of the middle section (not easily computed from boundaries)
   middle_len <- new_len - 2L * (n_last + 1L)

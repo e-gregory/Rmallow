@@ -41,6 +41,9 @@ FormatOut <- function(R, p, lambda, z, datas, likelihood) {
 
   # Create string representation of modal sequences
   seqs <- vapply(R, function(seq) paste(seq, collapse = " "), character(1L))
+  
+  # Handle case where multiple clusters converge to same sequence
+  unique_seqs <- unique(seqs)
 
   # Compute distances to all cluster centers
   R_matrix <- do.call(rbind, R)
@@ -55,8 +58,8 @@ FormatOut <- function(R, p, lambda, z, datas, likelihood) {
     out_df[[paste0("pvals.", g)]] <- z[, g]
   }
 
-  # Add assigned sequence
-  out_df$seq <- factor(seqs[clust], levels = seqs)
+  # Add assigned sequence (use unique levels to avoid duplicate factor level error)
+  out_df$seq <- factor(seqs[clust], levels = unique_seqs)
 
   # Add distances
   for (g in seq_len(G)) {
