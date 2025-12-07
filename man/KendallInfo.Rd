@@ -1,31 +1,38 @@
 \name{KendallInfo}
 \alias{KendallInfo}
-\title{All information used to calculate Kendall's distance.}
+\title{Compute pairwise comparison information for Kendall's distance}
 \usage{
-  KendallInfo(r, inds = NULL)
+KendallInfo(r, inds = NULL)
 }
 \arguments{
-  \item{r}{Matrix of sequences.}
+\item{r}{Matrix of sequences, where each row is a ranking.}
 
-  \item{inds}{Possibly efficiency increase when doing
-  repeated calculations, currently not used.}
+\item{inds}{Optional matrix of column index pairs for comparisons. If NULL,
+all pairs are computed using \code{combn(ncol(r), 2)}.}
 }
 \value{
-  Matrix of 0s, 1s, and NAs representing pairwise
-  comparisons of vector values.
+Matrix of 0s, 1s, and NAs representing pairwise comparisons. Each
+column corresponds to a pair of positions in the original ranking.
 }
 \description{
-  Performs each column-wise comparison on a matrix of
-  sequences.  A 0 value denotes that there is an increase
-  between the two columns, 1 a decrease, and NA indicates
-  that the column values are identical in the row.
+Performs each column-wise comparison on a matrix of sequences. A 0 value
+denotes an increase between two columns, 1 denotes a decrease, and NA
+indicates tied values.
+}
+\examples{
+# Full ranking
+r <- matrix(c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1), nrow = 2, byrow = TRUE)
+KendallInfo(r)
+
+# Ranking with ties
+r_ties <- matrix(c(1, 1, 2, 3, 3), nrow = 1)
+KendallInfo(r_ties)
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  http://en.wikipedia.org/wiki/Kendall_tau_distance
+\url{https://en.wikipedia.org/wiki/Kendall_tau_distance}
 }
 \keyword{Distance}
 \keyword{Kendall}
-

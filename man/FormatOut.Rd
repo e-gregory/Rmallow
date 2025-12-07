@@ -1,39 +1,40 @@
 \name{FormatOut}
 \alias{FormatOut}
-\title{Formats the data in the "Solve" function for output.}
+\title{Format Mallows model output}
 \usage{
-  FormatOut(R, p, lambda, z, datas, likelihood)
+FormatOut(R, p, lambda, z, datas, likelihood)
 }
 \arguments{
-  \item{R}{The modal sequences.}
+\item{R}{List of modal sequences (length G).}
 
-  \item{p}{Proportion of data in each cluster.}
+\item{p}{Vector of cluster proportions (length G).}
 
-  \item{lambda}{Mallows' spread parameters for each
-  cluster.}
+\item{lambda}{Vector of spread parameters (length G).}
 
-  \item{z}{Probability of cluster membership for each
-  individual.}
+\item{z}{Matrix of membership probabilities (N x G).}
 
-  \item{datas}{Matrix of partial sequences.}
+\item{datas}{Original data matrix of rankings (N x n_items).}
 
-  \item{likelihood}{Vector of the log-likelihood of the
-  model at each iteration.}
+\item{likelihood}{Vector of log-likelihood values at each iteration.}
 }
 \value{
-  \item{R}{The modal sequences} \item{p}{Proportion in each
-  cluster} \item{lambda}{Spread parameters for each
-  cluster} \item{datas}{Rankings merged with their cluster
-  membership, distance from each cluster center, and
-  probability of each cluster membership}
-  \item{min.like}{Likelihood at each iteration}
+List with components:
+\describe{
+  \item{R}{Modal sequences for each cluster}
+  \item{p}{Proportion of data in each cluster}
+  \item{lambda}{Spread parameters for each cluster}
+  \item{datas}{Data frame with original rankings plus cluster assignments,
+    membership probabilities, assigned modal sequence, and distances to
+    each cluster center}
+  \item{min.like}{Log-likelihood at each iteration}
+}
 }
 \description{
-  Data formatting function.
+Formats the results of the Mallows model fitting procedure into a
+structured list with cluster assignments and diagnostics.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \keyword{BubbleSort}
 \keyword{Kendall}
-

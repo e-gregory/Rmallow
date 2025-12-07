@@ -1,36 +1,74 @@
-#' Formats the data in the "Solve" function for output.
-#' 
-#' Data formatting function.
-#' 
-#' 
-#' @param R The modal sequences.
-#' @param p Proportion of data in each cluster.
-#' @param lambda Mallows' spread parameters for each cluster.
-#' @param z Probability of cluster membership for each individual.
-#' @param datas Matrix of partial sequences.
-#' @param likelihood Vector of the log-likelihood of the model at each
-#' iteration.
-#' @return \item{R}{The modal sequences} \item{p}{Proportion in each cluster}
-#' \item{lambda}{Spread parameters for each cluster} \item{datas}{Rankings
-#' merged with their cluster membership, distance from each cluster center, and
-#' probability of each cluster membership} \item{min.like}{Likelihood at each
-#' iteration}
-
+#' Format Mallows model output
+#'
+#' Formats the results of the Mallows model fitting procedure into a
+#' structured list with cluster assignments and diagnostics.
+#'
+#' @param R List of modal sequences (length G).
+#' @param p Vector of cluster proportions (length G).
+#' @param lambda Vector of spread parameters (length G).
+#' @param z Matrix of membership probabilities (N x G).
+#' @param datas Original data matrix of rankings (N x n_items).
+#' @param likelihood Vector of log-likelihood values at each iteration.
+#' @return List with components:
+#'   \describe{
+#'     \item{R}{Modal sequences for each cluster}
+#'     \item{p}{Proportion of data in each cluster}
+#'     \item{lambda}{Spread parameters for each cluster}
+#'     \item{datas}{Data frame with original rankings plus:
+#'       \describe{
+#'         \item{clust}{Assigned cluster (hard assignment)}
+#'         \item{pvals.*}{Membership probabilities for each cluster}
+#'         \item{seq}{Character representation of assigned modal sequence}
+#'         \item{dists.*}{Distance to each cluster center}
+#'       }
+#'     }
+#'     \item{min.like}{Log-likelihood at each iteration}
+#'   }
 #' @author Erik Gregory
-
 #' @keywords BubbleSort Kendall
-FormatOut <-
-function(R, p, lambda, z, datas, likelihood) {
-  # Find which cluster the individual belongs to.
-  clust <- apply(z, 1, which.max)
-  # Change the forms of the sequences.
-  seqs <- unlist(lapply(R, 
-                        function(i) paste(i, collapse = " ")))
-  datas <- data.frame(datas, clust)
-  N <- ncol(datas) - 1
-  dists <- AllKendall(datas[, 1:N], do.call("rbind", R))
-  datas <- data.frame(datas, pvals = z, seq = seqs[clust], dists = dists)
-  out <- list(R = R, p = p, lambda = lambda, 
-              datas = datas, min.like = likelihood)
-  return(out)
+#' @export
+FormatOut <- function(R, p, lambda, z, datas, likelihood) {
+  # Convert datas to matrix if needed
+  if (!is.matrix(datas)) {
+    datas <- as.matrix(datas)
+  }
+
+  G <- length(R)
+  N <- ncol(datas)
+
+  # Hard cluster assignment (maximum probability)
+  clust <- apply(z, 1L, which.max)
+
+  # Create string representation of modal sequences
+  seqs <- vapply(R, function(seq) paste(seq, collapse = " "), character(1L))
+
+  # Compute distances to all cluster centers
+  R_matrix <- do.call(rbind, R)
+  dists <- AllKendall(datas, R_matrix)
+
+  # Build output data frame
+  out_df <- as.data.frame(datas)
+  out_df$clust <- clust
+
+  # Add membership probabilities
+  for (g in seq_len(G)) {
+    out_df[[paste0("pvals.", g)]] <- z[, g]
+  }
+
+  # Add assigned sequence
+  out_df$seq <- factor(seqs[clust], levels = seqs)
+
+  # Add distances
+  for (g in seq_len(G)) {
+    out_df[[paste0("dists.", g)]] <- dists[, g]
+  }
+
+  # Return structured list
+  list(
+    R = R,
+    p = p,
+    lambda = lambda,
+    datas = out_df,
+    min.like = likelihood
+  )
 }

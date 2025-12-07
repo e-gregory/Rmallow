@@ -1,21 +1,60 @@
-#' Change the form of ordered sequences.
-#' 
-#' Simplifies sequences so that each tie group is only of distance 1 to the
-#' next tie group.  For example, we would simplify (1, 1, 2, 4, 4, 5) to (1, 1,
-#' 2, 3, 3, 4).
-#' 
-#' @param loss.time Matrix of sequences to be simplified.
-#' @return Simplified sequences, as described in Description.
+#' Simplify tied rankings to consecutive integers
+#'
+#' Transforms rankings so that tie groups use consecutive integers.
+#' For example, (1, 1, 2, 4, 4, 5) becomes (1, 1, 2, 3, 3, 4).
+#'
+#' @param rankings Matrix of rankings to simplify, where each row is a ranking.
+#' @return Matrix of simplified rankings with the same dimensions.
 #' @author Erik Gregory
 #' @keywords simplify sequence
-SimplifySequences <-
-function(loss.time) {
-  maxs <- apply(loss.time, 1, max) + 1
-  for (i in 1:nrow(loss.time)){
-    nums <- sort(unique(loss.time[i, ]))
-    for(j in 1:length(nums)) {
-      loss.time[i, ][loss.time[i, ] == nums[j]] <- j
-    }
+#' @export
+#' @examples
+#' # Single ranking with gaps
+#' rankings <- matrix(c(1, 1, 2, 4, 4, 5), nrow = 1)
+#' SimplifySequences(rankings)
+#' # Returns: 1 1 2 3 3 4
+#'
+#' # Multiple rankings
+#' rankings <- rbind(
+#'   c(1, 3, 3, 5),
+#'   c(2, 2, 4, 6)
+#' )
+#' SimplifySequences(rankings)
+SimplifySequences <- function(rankings) {
+  # Handle vector input
+  if (!is.matrix(rankings)) {
+    rankings <- matrix(rankings, nrow = 1L)
+    was_vector <- TRUE
+  } else {
+    was_vector <- FALSE
   }
-  return(loss.time)
+
+  if (nrow(rankings) == 0L) {
+    return(rankings)
+  }
+
+  # Process each row
+  result <- t(apply(rankings, 1L, function(row) {
+    unique_vals <- sort(unique(row))
+    # Create mapping from original values to simplified
+    mapping <- match(row, unique_vals)
+    mapping
+  }))
+
+  # Ensure result is a matrix with correct dimensions
+  if (was_vector || nrow(rankings) == 1L) {
+    result <- matrix(result, nrow = 1L)
+  }
+
+  # Preserve dimension names if present
+  dimnames(result) <- dimnames(rankings)
+
+  result
+}
+
+# Backward compatibility alias
+#' @rdname SimplifySequences
+#' @param loss.time Deprecated. Use \code{rankings} instead.
+SimplifySequences.legacy <- function(loss.time) {
+  SimplifySequences(rankings = loss.time)
 }

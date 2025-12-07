@@ -1,38 +1,32 @@
 \name{Lambda}
 \alias{Lambda}
-\title{Objective function to determine lambda.}
+\title{Objective function for lambda estimation}
 \usage{
-  Lambda(lambda, rhs, dists, dists.table = NULL)
+Lambda(lambda, rhs, dists = NULL, dists_table = NULL)
 }
 \arguments{
-  \item{lambda}{lambda value to calculate the function
-  output at.}
+\item{lambda}{Lambda value to evaluate the function at.}
 
-  \item{rhs}{Right-hand side of the equation in the
-  referenced paper.}
+\item{rhs}{Right-hand side of the estimating equation (weighted mean distance).}
 
-  \item{dists}{Not used.}
+\item{dists}{Not used (kept for backward compatibility).}
 
-  \item{dists.table}{Table of distances between each
-  sequence and the modal sequence in N! space.}
+\item{dists_table}{Table of distance distribution in N! space.}
 }
 \value{
-  Output of the objective function to determine the root
-  of.  Goal is zero.
+Value of the objective function. The goal is to find lambda where
+this equals zero.
 }
 \description{
-  Objective function to find the root of in calculating the
-  lambda parameters for each cluster.
+Computes the objective function whose root gives the MLE of lambda
+in Mallows' model. Used internally by \code{\link{UpdateLambda}}.
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \references{
-  "Mixtures of distance-based models for ranking data".
-  Thomas Brendan Murphy & Donal Martin. 1 April 2002.
-  Computational Statistics & Data Analysis 41 (2003)
-  645-655.
+Murphy, T.B. and Martin, D. (2003). Mixtures of distance-based models
+for ranking data. Computational Statistics & Data Analysis, 41, 645-655.
 }
-\keyword{lambda}
 \keyword{Mallow}
-
+\keyword{lambda}

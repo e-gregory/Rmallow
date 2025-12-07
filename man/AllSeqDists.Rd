@@ -1,22 +1,26 @@
 \name{AllSeqDists}
 \alias{AllSeqDists}
-\title{Calculate all distances between a set of sequences and a fixed sequence.}
+\title{Compute distances from sequences to the canonical ordering}
 \usage{
-  AllSeqDists(seqs)
+AllSeqDists(seqs)
 }
 \arguments{
-  \item{seqs}{Matrix or data frame of sequences.}
+\item{seqs}{Matrix or data frame of sequences, where each row is a ranking.}
 }
 \value{
-  Vector of the distances from the sequences to 1:N.
+Integer vector of distances from each sequence to \code{1:N}.
 }
 \description{
-  Used to calculate the sequence Kendall distance
-  distribution in N! space.
+Calculates the Kendall distance from each sequence to the canonical
+ordering (1, 2, ..., N).
+}
+\examples{
+seqs <- rbind(1:5, 5:1, c(1, 3, 2, 4, 5))
+AllSeqDists(seqs)
+# Returns: 0, 10, 1
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
 \keyword{Distance}
 \keyword{Kendall}
-

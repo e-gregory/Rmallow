@@ -1,35 +1,33 @@
 \name{AllKendall}
 \alias{AllKendall}
-\title{All Kendall's distances between two sets of rankings.}
+\title{Compute Kendall's distances between two sets of rankings}
 \usage{
-  AllKendall(r, seqs, data.info = NULL)
+AllKendall(r, seqs, data_info = NULL)
 }
 \arguments{
-  \item{r}{One set of sequences.}
+\item{r}{Matrix of rankings (each row is a ranking).}
 
-  \item{seqs}{Another set of sequences.}
+\item{seqs}{Matrix of reference sequences (each row is a sequence).}
 
-  \item{data.info}{Optional argument, a 0/1/NA matrix
-  specifying all of the relevant information to calculate
-  Kendall's difference for "r".  Used for efficiency in
-  "Solve".}
+\item{data_info}{Optional precomputed Kendall information matrix for \code{r}.
+If NULL, it will be computed internally. Providing this can improve
+efficiency when calling the function repeatedly with the same data.}
 }
 \value{
-  Matrix where output[i, j] represents the distance from
-  sequence "i" in "r" to sequence "j" in "seqs".
+Matrix where entry \code{[i, j]} represents the Kendall distance
+from ranking \code{i} in \code{r} to sequence \code{j} in \code{seqs}.
 }
 \description{
-  Calculates all of the Kendall's distances between two
-  different sets of rankings.
+Calculates all Kendall's distances between each ranking in \code{r} and
+each sequence in \code{seqs}.
 }
 \examples{
-data1 <- do.call("rbind", list(1:5, 5:1, c(3, 2, 1, 4, 5)))
-data2 <- do.call("rbind", list(1:5, 5:1))
-# AllKendall(data1, data2)
+data1 <- rbind(1:5, 5:1, c(3, 2, 1, 4, 5))
+data2 <- rbind(1:5, 5:1)
+AllKendall(data1, data2)
 }
 \author{
-  Erik Gregory
+Erik Gregory
 }
-\keyword{distance}
 \keyword{Kendall}
-
+\keyword{distance}
