@@ -1,0 +1,36 @@
+AllKendall              Compute Kendall's distances between two sets of
+                        rankings
+AllSeqDists             Compute distances from sequences to the
+                        canonical ordering
+BestFit                 Fit Mallows model multiple times and select
+                        best
+C_lam                   Compute the normalizing constant for Mallows'
+                        model
+ConstructSeqs           Construct sequences from Kendall preference
+                        vectors
+datas                   Sample synthetic data set
+DistanceDistribution    Compute the Kendall distance distribution in N!
+                        space
+elect                   1980 APA Presidential Candidate Ranking Data
+EStep                   E-Step of the EM algorithm
+FormatOut               Format Mallows model output
+KendallInfo             Compute pairwise comparison information for
+                        Kendall's distance
+Lambda                  Objective function for lambda estimation
+Likelihood              Compute log-likelihood of Mallows mixture model
+Mallows                 Fit a Multi-Modal Mallows' Model to Ranking
+                        Data
+NextTable               Compute distance distribution for (N+1)! from
+                        N! space
+Rgen                    Initialize cluster modal sequences
+RMallow-package         RMallow: Fit Multi-Modal Mallows' Models to
+                        Ranking Data
+SeqDistribution         Compute all Kendall distances in N! space by
+                        enumeration
+SimplifySequences       Simplify tied rankings to consecutive integers
+three.mode              Three-mode Mallows model fit to synthetic data
+two.mode                Two-mode Mallows model fit to synthetic data
+two.seq                 Two-mode Mallows model fit to APA election data
+UpdateLambda            Update spread parameters (M-step)
+UpdateP                 Update cluster proportions (M-step)
+UpdateR                 Update modal sequences (M-step)
